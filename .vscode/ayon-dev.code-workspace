@@ -94,10 +94,10 @@
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
-      "source.fixAll.ruff": "explicit",
+      "source.fixAll.ruff": "explicit"
     },
     "ruff.configurationPreference": "editorFirst",
-    "ruff.lineLength": 88,
+    "ruff.lineLength": 120,
     "python.testing.pytestEnabled": true,
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
 
@@ -154,6 +154,9 @@
       "editor.defaultFormatter": "esbenp.prettier-vscode",
       "editor.formatOnSave": true
     },
+    "[jsonc]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
   },
 
   // -----------------------------------------------------------------------------
@@ -168,12 +171,7 @@
         "label": "Start Ayon Server",
         "type": "shell",
         "command": "docker",
-        "args": [
-          "compose",
-          "up",
-          "--build",
-          "--detach"
-        ],
+        "args": ["compose", "up", "--build", "--detach"],
         "group": {
           "kind": "build",
           "isDefault": true
@@ -192,10 +190,7 @@
         "label": "Stop Ayon Server",
         "type": "shell",
         "command": "docker",
-        "args": [
-          "compose",
-          "down"
-        ],
+        "args": ["compose", "down"],
         "group": {
           "kind": "build",
           "isDefault": true
@@ -214,12 +209,7 @@
         "label": "Start Kitsu Server",
         "type": "shell",
         "command": "docker",
-        "args": [
-          "compose",
-          "up",
-          "--build",
-          "--detach"
-        ],
+        "args": ["compose", "up", "--build", "--detach"],
         "group": {
           "kind": "build",
           "isDefault": true
@@ -238,10 +228,7 @@
         "label": "Stop Kitsu Server",
         "type": "shell",
         "command": "docker",
-        "args": [
-          "compose",
-          "down"
-        ],
+        "args": ["compose", "down"],
         "group": {
           "kind": "build",
           "isDefault": true
@@ -259,7 +246,7 @@
       {
         "label": "Run Ayon Core Tests",
         "type": "shell",
-        "command": "${workspaceFolder:ayon-core}/scripts/run_tests.sh",
+        "command": "./scripts/run_tests.sh",
         "group": {
           "kind": "test",
           "isDefault": true
@@ -277,30 +264,11 @@
       {
         "label": "Run Ayon Maya Tests: Unit",
         "detail": "Runs unit tests for the Ayon Maya addon",
-        "type": "shell",
         "command": "poetry",
         "args": [
           "run",
           "python",
-          "${workspaceFolder:ayon-maya}/client/ayon_maya/tests/scripts/run_unit_tests.py"
-        ],
-        "options": {
-          "cwd": "${workspaceFolder:ayon-maya}",
-        },
-        "group": {
-          "kind": "test",
-          "isDefault": true
-        },
-      },
-      {
-        "label": "Run Ayon Maya Tests: Integration",
-        "detail": "Runs integration tests for the Ayon Maya addon",
-        "type": "shell",
-        "command": "poetry",
-        "args": [
-          "run",
-          "python",
-          "${workspaceFolder:ayon-maya}/client/ayon_maya/tests/scripts/run_integration_tests.py"
+          "./client/ayon_maya/tests/scripts/run_unit_tests.py"
         ],
         "options": {
           "cwd": "${workspaceFolder:ayon-maya}"
@@ -308,7 +276,64 @@
         "group": {
           "kind": "test",
           "isDefault": true
+        }
+      },
+      {
+        "label": "Run Ayon Maya Tests: Integration",
+        "detail": "Runs integration tests for the Ayon Maya addon",
+        "command": "poetry",
+        "args": [
+          "run",
+          "python",
+          "./client/ayon_maya/tests/scripts/run_integration_tests.py"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:ayon-maya}"
         },
+        "group": {
+          "kind": "test",
+          "isDefault": true
+        }
+      },
+      {
+        "label": "Run Ayon Maya Tests: All",
+        "detail": "Runs all tests for the Ayon Maya addon",
+        "command": "echo",
+        "dependsOn": [
+          "Run Ayon Maya Tests: Unit",
+          "Run Ayon Maya Tests: Integration"
+        ],
+        "dependsOrder": "sequence",
+        "args": [
+          "All tests for the Ayon Maya addon have been run successfully."
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:ayon-maya}"
+        },
+        "group": {
+          "kind": "test",
+          "isDefault": true
+        }
+      },
+      {
+        "label": "Generate PR Test Summary",
+        "detail": "Processes test logs and creates a copyable summary for PRs",
+        "type": "shell",
+        "command": "poetry run python ./client/ayon_maya/tests/scripts/generate_pr_summary.py",
+        "options": {
+          "cwd": "${workspaceFolder:ayon-maya}"
+        },
+        "group": {
+          "kind": "test",
+          "isDefault": true
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared",
+          "showReuseMessage": false,
+          "clear": true
+        }
       }
     ]
   },
@@ -320,9 +345,7 @@
   // -----------------------------------------------------------------------------
   "launch": {
     "version": "0.2.0",
-    "configurations": [
-
-    ]
+    "configurations": []
   },
 
   // -----------------------------------------------------------------------------
@@ -345,7 +368,6 @@
       "ms-azuretools.vscode-containers", // For remote development in containers
 
       // Code Quality & Style
-      "ms-python.black-formatter", // For Python code formatting
       "charliermarsh.ruff", // For Python linting and formatting
       "esbenp.prettier-vscode", // For consistent code formatting
       "dbaeumer.vscode-eslint", // For JavaScript/TypeScript linting
@@ -356,9 +378,7 @@
       "christian-kohler.path-intellisense",
       "github.copilot",
       "folke.monorepo-workspace", // Helps focus on specific projects in the explorer
-      "spmeesseman.vscode-taskexplorer", // For advanced task management
       "alefragnani.project-manager" // For managing multiple projects easily
-
     ]
   }
 }
