@@ -50,8 +50,8 @@
     // General Editor & UI
     "workbench.colorTheme": "Default Dark Modern",
     "workbench.iconTheme": "vscode-icons",
-    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
-    "editor.fontFamily": "Fira Code, Consolas, 'Courier New', monospace",
+    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+    "editor.fontFamily": "FiraCode Nerd Font Mono, 'Courier New', monospace",
     "editor.fontLigatures": true,
     "editor.minimap.enabled": false,
     "editor.rulers": [88, 120],
@@ -156,7 +156,8 @@
     },
     "[jsonc]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "editor.fontSize": 14
   },
 
   // -----------------------------------------------------------------------------

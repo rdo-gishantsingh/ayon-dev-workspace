@@ -222,6 +222,58 @@ npx prettier --write .
 3. Select the appropriate debug configuration
 4. Start debugging with `F5`
 
+### Remote Debugging
+
+For debugging from Maya we have to use `remote debugging`:
+
+1. **Install debugging package in target environment:**
+
+   ```bash
+   # For most environments, use debugpy
+   pip install debugpy
+
+   # For Maya 2013 and Rocky 9, use ptvsd due to library incompatibilities
+   pip install ptvsd
+   ```
+
+2. **Add debugging code to your application:**
+
+   ```python
+   # Using debugpy (recommended for newer environments)
+   import debugpy
+   debugpy.listen(("0.0.0.0", 5678))
+   debugpy.wait_for_client()  # Optional: pause until debugger attaches
+
+   # Using ptvsd (required for Maya 2013 and Rocky 9)
+   import ptvsd
+   ptvsd.enable_attach(address=("0.0.0.0", 5678))
+   ptvsd.wait_for_attach()  # Optional: pause until debugger attaches
+   ```
+
+3. **Configure VS Code launch configuration** in `.vscode/launch.json`:
+
+   ```json
+   {
+     "name": "Python: Remote Attach",
+     "type": "python",
+     "request": "attach",
+     "connect": {
+       "host": "localhost",
+       "port": 5678
+     },
+     "pathMappings": [
+       {
+         "localRoot": "${workspaceFolder}",
+         "remoteRoot": "${workspaceFolder}"
+       }
+     ]
+   }
+   ```
+
+4. **Start your application** and then attach the debugger from VS Code
+
+> **Note:** Use `ptvsd` instead of `debugpy` when debugging Maya 2013 on Rocky 9 systems due to library incompatibilities. The `debugpy` package requires newer Maya Version.
+
 ### Docker Debugging
 
 Monitor container logs:
